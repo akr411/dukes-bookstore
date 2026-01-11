@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.SearchResults}"/>
+        </ui:define>
+        
+        <ui:define name="content">
+            <h2>Search Results for "#{searchBean.searchQuery}"</h2>
+            
+            <c:choose>
+                <c:when test="#{empty searchBean.searchResults}">
+                    <p>No books found matching your search criteria.</p>
+                </c:when>
+                <c:otherwise>
+                    <table class="bookTable">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{searchBean.searchResults}" var="book">
+                                <tr>
+                                    <td>
+                                        <h:outputText value="#{book.title}"/>
+                                    </td>
+                                    <td>
+                                        <h:outputText value="#{book.firstname} #{book.surname}"/>
+                                    </td>
+                                    <td>
+                                        <h:outputText value="#{book.price}">
+                                            <f:convertNumber type="currency"/>
+                                        </h:outputText>
+                                    </td>
+                                    <td>
+                                        <h:link outcome="bookdetails" value="Details">
+                                            <f:param name="bookId" value="#{book.bookId}"/>
+                                        </h:link>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                    
+                    <div class="pagination">
+                        <h:form>
+                            <h:commandButton value="Previous" 
+                                           action="#{searchBean.previousPage}" 
+                                           disabled="#{not searchBean.hasPreviousPage}"/>
+                            <h:outputText value=" Page #{searchBean.currentPage} of #{searchBean.totalPages} "/>
+                            <h:commandButton value="Next" 
+                                           action="#{searchBean.nextPage}" 
+                                           disabled="#{not searchBean.hasNextPage}"/>
+                        </h:form>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            
+            <p>
+                <h:link outcome="bookcatalog" value="Back to Catalog"/>
+            </p>
+        </ui:define>
+    </ui:composition>
+</html>
+

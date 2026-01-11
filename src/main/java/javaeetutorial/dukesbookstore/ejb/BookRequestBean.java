@@ -70,6 +70,21 @@ public class BookRequestBean {
         return requestedBook;
     }
 
+    public List<Book> searchBooksByTitle(String titleQuery) {
+        if (titleQuery == null || titleQuery.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        TypedQuery<Book> query = em.createQuery(
+            "SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(:titlePattern) ORDER BY b.title",
+            Book.class
+        );
+        query.setParameter("titlePattern", "%" + titleQuery + "%");
+
+        return query.getResultList();
+    }
+
+
     public void buyBooks(ShoppingCart cart) throws OrderException {
         Collection<ShoppingCartItem> items = cart.getItems();
         Iterator<ShoppingCartItem> i = items.iterator();
