@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.ArrayList;
+import javax.persistence.TypedQuery;
 import javaeetutorial.dukesbookstore.entity.Book;
 import javaeetutorial.dukesbookstore.exception.BookNotFoundException;
 import javaeetutorial.dukesbookstore.exception.BooksNotFoundException;
