@@ -27,6 +27,9 @@ import javax.inject.Named;
 @SessionScoped
 public class ShoppingCart extends AbstractBean implements Serializable {
 
+    @Inject
+    private CouponBean couponBean;
+
     private static final Logger logger =
             Logger.getLogger("dukesbookstore.web.managedbeans.ShoppingCart");
     private static final long serialVersionUID = -115105724952554868L;
@@ -105,6 +108,27 @@ public class ShoppingCart extends AbstractBean implements Serializable {
             return (null);
         } else {
             return ("bookcashier");
+        }
+    }
+
+    public double getTotalWithDiscount() {
+        double total = getTotal();
+        double discount = couponBean.getDiscountPercentage();
+
+        return total - (total * discount / 100);
+    }
+
+    public String getFormattedTotal() {
+        return "<span class='total'>Total: $" + getTotalWithDiscount() + 
+               " (Coupon: " + couponBean.getCouponCode() + ")</span>";
+    }
+
+    public void applyBulkDiscount() {
+        for (Book book : getBooks().keySet()) {
+            Integer qty = getBooks().get(book);
+            if (qty > 5) {
+                getBooks().put(book, qty);
+            }
         }
     }
 
