@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <title>Apply Coupon</title>
+    </h:head>
+    
+    <h:body>
+        <h2>Apply Discount Coupon</h2>
+        
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel for="couponCode" value="Coupon Code:"/>
+                <h:inputText id="couponCode" value="#{couponBean.couponCode}"/>
+                
+                <h:commandButton value="Apply Coupon" action="#{couponBean.applyCoupon}"/>
+            </h:panelGrid>
+            
+            <h:outputText value="#{couponBean.statusMessage}" escape="false"/>
+            
+            <br/><br/>
+            
+            <h:panelGroup rendered="true">
+                <p>Debug: Current discount = #{couponBean.discountPercentage}%</p>
+                <p>Debug: DB URL = jdbc:mysql://localhost:3306/bookstore</p>
+            </h:panelGroup>
+        </h:form>
+        
+        <script>
+            var couponCode = '#{couponBean.couponCode}';
+            console.log('Applied coupon: ' + couponCode);
+        </script>
+    </h:body>
+</html>
+
